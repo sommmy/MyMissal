@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "650276732652",
+    "firebase_url": "https://my-missal-b002b.firebaseio.com",
+    "project_id": "my-missal-b002b",
+    "storage_bucket": "my-missal-b002b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650276732652:android:25ea129d1dbb080c",
+        "android_client_info": {
+          "package_name": "com.eliconcepts.mymissal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "650276732652-9nauhcgc2u7i4vpdp2r261dqli32l53v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eliconcepts.mymissal",
+            "certificate_hash": "b515e09af2e524c6618bade48d6104d6f4d6c406"
+          }
+        },
+        {
+          "client_id": "650276732652-ifijaj29m35vedphdhh3a0p29he4p9h2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpjFzrgz0kAVUqyRVdaq-gCWNjKsyJVn8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "650276732652-ifijaj29m35vedphdhh3a0p29he4p9h2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

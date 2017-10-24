@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.eliconcepts.mymissal.PhoneActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradiennt1"
+        android:gravity="center"
+        android:id="@+id/loadingProgress"
+        android:orientation="vertical"
+        >
+        <com.tuyenmonkey.mkloader.MKLoader
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:mk_type="Sharingan"
+            app:mk_color="@color/white"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="loading text"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
+            android:id="@+id/loading_text"
+            android:gravity="center"
+            />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/verifyLayout"
+        android:orientation="vertical"
+        android:background="@drawable/gradiennt1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:gravity="center"
+                android:text="Log in with Mobile Number"
+                android:textColor="@color/white"
+                 android:textSize="22sp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="40dp"
+                android:paddingEnd="40dp"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="@string/verify_note"
+                    android:textSize="14sp"
+                    android:id="@+id/firstText"
+                    android:paddingTop="18dp"
+                    android:layout_marginBottom="20dp"
+                    />
+
+
+                <com.rilixtech.CountryCodePicker
+                    android:id="@+id/ccp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:ccp_defaultNameCode="NG"
+                    app:ccp_showFullName="true"
+                    android:layout_gravity="center"
+                    android:padding="18dp"
+                    app:ccp_textColor="@color/white"
+                    app:ccp_countryPreference="NG,GH,ZA,EG"
+                    />
+
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone number"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:textColorHint="@color/white"
+                    android:background="@null"
+                    android:inputType="phone"/>
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="@string/code_instructions"
+                    android:textSize="12sp"
+                    android:id="@+id/directions"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Log in"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:background="@drawable/corner_white_border"
+                    android:layout_gravity="center"
+                    android:id="@+id/loginButton"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/gradiennt1"
+        android:id="@+id/inputCodeLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Verification code"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_marginTop="100dp"
+
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Please type the verification code sent to your phone."
+            android:gravity="center"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:textSize="14sp"
+            android:paddingTop="18dp"
+            android:layout_marginBottom="20dp"
+            />
+        <com.goodiebag.pinview.Pinview
+            android:id="@+id/sms_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:pinWidth="30dp"
+            app:pinHeight="30dp"
+            app:pinLength="5"
+            app:cursorVisible="false"
+            app:forceKeyboard="false"
+            app:hint="0"
+            app:inputType="number"
+            app:password="false"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Didin't receive the code?"
+            android:gravity="center"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:textSize="12sp"
+            android:paddingTop="18dp"
+            android:layout_marginBottom="20dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Please wait "
+                android:textSize="12sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#f5ea3d"
+                android:id="@+id/timer"
+                tools:text="0:30 "
+                android:textSize="12sp"
+                />
+        </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Resend Code"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_gravity="center"
+            android:id="@+id/resend_code"
+            android:background="@drawable/corner_white_border"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            />
+    </LinearLayout>
+
+</RelativeLayout>
