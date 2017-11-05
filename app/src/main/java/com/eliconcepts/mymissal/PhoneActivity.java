@@ -1,15 +1,20 @@
 package com.eliconcepts.mymissal;
 
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.goodiebag.pinview.Pinview;
 import com.lamudi.phonefield.PhoneEditText;
 import com.lamudi.phonefield.PhoneInputLayout;
 import com.rilixtech.CountryCodePicker;
@@ -58,13 +63,17 @@ public class PhoneActivity extends AppCompatActivity {
     private AppCompatEditText phoneNumber;
     private LinearLayout verifyLayout;
     private LinearLayout inputCodeLayout;
+    private TextView timer;
+    private Button resendCode;
+    private Pinview smsCode;
+    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone);
         getWindow().setBackgroundDrawableResource(R.drawable.gradiennt1);
-        
+
         //define views here
         inputCodeLayout = (LinearLayout) findViewById(R.id.inputCodeLayout);
         loadingProgress = (LinearLayout)findViewById(R.id.loadingProgress);
@@ -73,23 +82,32 @@ public class PhoneActivity extends AppCompatActivity {
         ccp = (CountryCodePicker) findViewById(R.id.ccp);
         loginButton = (Button)findViewById(R.id.loginButton);
         phoneNumber = (AppCompatEditText)findViewById(R.id.phone_number);
-
-        showView(verifyLayout);
-        hideView(inputCodeLayout);
-        hideView(loadingProgress);
-// you can set the hint as follows
+        timer = (TextView) findViewById(R.id.timer);
+        resendCode = (Button) findViewById(R.id.resend_code);
+        smsCode = (Pinview) findViewById(R.id.sms_code);
 
 
-// you can set the default country as follows
+        showView(verifyLayout); //show the main layout
+        hideView(inputCodeLayout); //hide the otp layout
+        hideView(loadingProgress); //hide the progress loading layout
+
 
         //set onclick listener for login button
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //this method is triggered when the login button is clicked
              attemptLogin();
 
             }
-            
+
+        });
+        resendCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // this method is triggered when the resend code button is pressed
+                retryVerify();
+            }
         });
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
@@ -139,13 +157,51 @@ public class PhoneActivity extends AppCompatActivity {
                 mVerificationId = verificationId;
                 mResendToken = token;
 
+
                 // ...
             }
         };
+        smsCode.setPinViewEventListener(new Pinview.PinViewEventListener() {
+            @Override
+            public void onDataEntered(Pinview pinview, boolean b) {
 
+                //trigger this when the OTP code has finished typing
+                final String verifyCode = smsCode.getValue();
+                verifyPhoneNumberWithCode(mVerificationId,verifyCode);
+            }
+        });
 
       //onCreate ends here
     }
+
+    private void retryVerify() {
+        resendVerificationCode(phone,mResendToken);
+    }
+
+
+    private void verifyPhoneNumberWithCode(String verificationId, String code) {
+        hideView(verifyLayout); //hide the main layout
+        hideView(inputCodeLayout); //hide the otp layout
+        showView(loadingProgress); //show the progress loading layout
+
+
+        // [START verify_with_code]
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+        // [END verify_with_code]
+        signInWithPhoneAuthCredential(credential);
+    }
+
+    private void resendVerificationCode(String phoneNumber,
+                                        PhoneAuthProvider.ForceResendingToken token) {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneNumber,        // Phone number to verify
+                60,                 // Timeout duration
+                TimeUnit.SECONDS,   // Unit of timeout
+                this,               // Activity (for callback binding)
+                mCallbacks,         // OnVerificationStateChangedCallbacks
+                token);             // ForceResendingToken from callbacks
+    }
+
 
     private void attemptLogin() {
 
@@ -154,7 +210,7 @@ public class PhoneActivity extends AppCompatActivity {
 
         //get values from phone edit text and pass to countryPicker
         ccp.registerPhoneNumberTextView(phoneNumber);
-        String phone = ccp.getFullNumber();
+        phone = ccp.getFullNumber();
 
         boolean cancel= false;
         View focusView = null;
@@ -173,11 +229,27 @@ public class PhoneActivity extends AppCompatActivity {
 
                 //show loading screen
                 hideView(verifyLayout);
-                hideView(inputCodeLayout);
-                showView(loadingProgress);
+                showView(inputCodeLayout);
+                hideView(loadingProgress);
 
                 //go ahead and verify number
                 startPhoneNumberVerification(phone);
+                //time to show retry button
+                new CountDownTimer(45000, 1000) {
+                    @Override
+                    public void onTick(long l) {
+                        timer.setText("0:" + l / 1000 + " s");
+                        resendCode.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        timer.setText(0 + " s");
+                        resendCode.startAnimation(AnimationUtils.loadAnimation(PhoneActivity.this, R.anim.slide_from_right));
+                        resendCode.setVisibility(View.VISIBLE);
+                    }
+                }.start();
+                //timer ends here
             }
 
 
@@ -220,8 +292,10 @@ public class PhoneActivity extends AppCompatActivity {
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
+
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
+                                Toast.makeText(PhoneActivity.this,"Invalid Verification Code",Toast.LENGTH_LONG).show();
                             }
                         }
                     }
