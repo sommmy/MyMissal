@@ -168,7 +168,7 @@
             android:layout_height="wrap_content"
             app:pinWidth="30dp"
             app:pinHeight="30dp"
-            app:pinLength="5"
+            app:pinLength="6"
             app:cursorVisible="false"
             app:forceKeyboard="false"
             app:hint="0"
