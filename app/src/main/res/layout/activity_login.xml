@@ -12,12 +12,37 @@
         android:scaleType="centerCrop"
         android:src="@drawable/closed"
          />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradiennt1"
+        android:gravity="center"
+        android:id="@+id/loadingProgress"
+        android:orientation="vertical"
+        >
+        <com.tuyenmonkey.mkloader.MKLoader
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:mk_type="Sharingan"
+            app:mk_color="@color/white"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="loading text"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
+            android:id="@+id/loading_text"
+            android:gravity="center"
+            />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:padding="10dp"
+        android:id="@+id/login_screen"
         android:background="@drawable/bg_screen1"
         android:orientation="vertical"
         android:layout_alignParentTop="true"

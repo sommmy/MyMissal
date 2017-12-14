@@ -12,9 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private TextView textView;
+    private String userName = "User";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,17 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //get bundles that were passed
+        Bundle bundle = getIntent().getExtras();
+        if(bundle.isEmpty()){
+            userName = "User";
+        }else{
+        if(bundle.containsKey("username")){
+         userName = bundle.getString("userName");} else{  userName = "User";}}
+
+        textView=(TextView) findViewById(R.id.textView3);
+        textView.setText(userName);
     }
 
     @Override
