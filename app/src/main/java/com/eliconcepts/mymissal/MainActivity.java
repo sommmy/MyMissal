@@ -47,11 +47,15 @@ public class MainActivity extends AppCompatActivity
 
         //get bundles that were passed
         Bundle bundle = getIntent().getExtras();
-        if(bundle.isEmpty()){
+
+        if(bundle != null && bundle.isEmpty()){
             userName = "User";
         }else{
-        if(bundle.containsKey("username")){
-         userName = bundle.getString("userName");} else{  userName = "User";}}
+            if (bundle != null) {
+                if(bundle.containsKey("username")){
+                 userName = bundle.getString("userName");} else{  userName = "User";}
+            }
+        }
 
         textView=(TextView) findViewById(R.id.textView3);
         textView.setText(userName);
